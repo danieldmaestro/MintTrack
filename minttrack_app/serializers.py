@@ -6,8 +6,6 @@ from rest_framework import serializers
 
 from .models import Item, Category, Transaction, Budget, Goal
 
-locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
-
 class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
