@@ -71,16 +71,16 @@ class ItemBudgetSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Budget
-        fields = ['item', 'amount', 'month', 'spent', ]
+        fields = ['item', 'amount', 'month', 'spent', 'category_name', 'item_name']
 
-    def get_spent(self, obj):
+    def get_spent(self, obj) -> int:
         spent_amount = Transaction.objects.filter(date__months=obj.month, item=obj.item).aggregate(total_amount=Sum('amount'))
         return spent_amount['total_amount']
     
-    def get_category_name(self, obj):
+    def get_category_name(self, obj) -> str:
         return obj.item.category.name
 
-    def get_item_name(self, obj):
+    def get_item_name(self, obj) -> str:
         return obj.item.name
 
 
