@@ -52,6 +52,12 @@ class BudgetDataAPIView(generics.GenericAPIView):
         total_balance = Budget.objects.all().aggregate(total=Sum('amount'))['total']
         total_spent = Transaction.objects.all().aggregate(total=Sum('amount'))['total']
         total_saved = GoalTransaction.objects.all().aggregate(total=Sum('amount'))['total']
+        message = {
+            'total_balance': total_balance,
+            'total_spent': total_spent,
+            'total_saved': total_saved
+                   }
+        return Response(message, status=status.HTTP_200_OK)
     
 
 

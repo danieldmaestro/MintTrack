@@ -10,5 +10,6 @@ urlpatterns = [
     path("budget/create/", views.BudgetCreateAPIView.as_view(), name="budget_create"),
     path("goals/", views.GoalListAPIView.as_view(), name="goal_list"),
     path("goals/create/", views.GoalCreateAPIView.as_view(), name="goal_create"),
+    path("dashboard_data/", views.BudgetDataAPIView.as_view(), name="dashboard"),
 ]
 
