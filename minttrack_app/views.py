@@ -2,14 +2,24 @@ from django.db.models import Sum
 
 from rest_framework import generics, status, filters
 from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 
 from .models import Item, Category, Transaction, Budget, Goal, GoalTransaction
-from .serializers import ItemSerializer, CategorySerializer, ItemBudgetSerializer, TransactionSerializer, GoalSerializer
+from .serializers import ItemSerializer, CategorySerializer, ItemBudgetSerializer, TransactionSerializer, GoalSerializer, LoginSerializer
 
 
 
 # Create your views here.
 
+class LoginAPIView(TokenObtainPairView):
+    """Endpoint to get authenticate user"""
+    serializer_class = LoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
+    
 class TransactionListAPIView(generics.ListAPIView):
     serializer_class = TransactionSerializer
     queryset = Transaction.objects.all()

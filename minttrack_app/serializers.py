@@ -3,8 +3,44 @@ import locale
 from django.db.models import Sum
 
 from rest_framework import serializers
+from rest_framework_simplejwt.tokens import RefreshToken
 
-from .models import Item, Category, Transaction, Budget, Goal
+
+from .models import Item, Category, Transaction, Budget, Goal, User
+
+
+class LoginSerializer(serializers.Serializer):
+    """Custom login serializer"""
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+    def get_token(self, user):
+        refresh_token = RefreshToken.for_user(user)
+        access = str(refresh_token.access_token)
+        refresh = str(refresh_token)
+        return access, refresh
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+        user = User.objects.get(email=email)
+        request = self.context.get('request')
+        
+        if not user or not user.check_password(password):
+            credentials = {'email': email}
+            raise serializers.ValidationError('Invalid login credentials or not a verified user')
+        
+        access, refresh = self.get_token(user)
+        
+        payload = {
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': email,
+            'access': access,
+            'refresh': refresh,
+        }
+        return payload
+
 
 class ItemSerializer(serializers.ModelSerializer):
 

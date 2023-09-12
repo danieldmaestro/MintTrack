@@ -4,6 +4,7 @@ from . import views
 app_name = 'minttrack_app'
 
 urlpatterns = [
+    path('login/', views.LoginAPIView.as_view(), name='login'),
     path('transactions/', views.TransactionListAPIView.as_view(), name="transactions"),
     path('transaction/create/', views.TransactionCreateAPIView.as_view(), name="transaction_create"),
     path("budgets/", views.BudgetListAPIView.as_view(), name="budget_list"),
