@@ -1,12 +1,16 @@
 import locale
 
 from django.db.models import Sum
+from django.contrib.auth import get_user_model
+
 
 from rest_framework import serializers
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
-from .models import Item, Category, Transaction, Budget, Goal, User
+from .models import Item, Category, Transaction, Budget, Goal
+
+User = get_user_model()
 
 
 class LoginSerializer(serializers.Serializer):
@@ -108,7 +112,7 @@ class ItemBudgetSerializer(serializers.ModelSerializer):
         fields = ['item', 'amount', 'month', 'spent', 'category_name', 'item_name']
 
     def get_spent(self, obj) -> int:
-        spent_amount = Transaction.objects.filter(date__months=obj.month, item=obj.item).aggregate(total_amount=Sum('amount'))
+        spent_amount = Transaction.objects.filter(date__month=obj.month, item=obj.item).aggregate(total_amount=Sum('amount'))
         return spent_amount['total_amount']
     
     def get_category_name(self, obj) -> str:

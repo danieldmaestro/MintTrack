@@ -5,24 +5,7 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.core.validators import MinValueValidator
 from django.utils import timezone
 
-from .managers import MyUserManager
-
 # Create your models here.
-
-class User(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(max_length=255, unique=True, verbose_name="email_address")
-    is_staff = models.BooleanField(default=False)
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)
-
-    REQUIRED_FIELDS= []
-    USERNAME_FIELD = "email"
-
-    objects = MyUserManager()
-
-    def __str__(self):
-        return self.email
-    
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
