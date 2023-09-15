@@ -25,6 +25,16 @@ class TransactionListAPIView(generics.ListAPIView):
     queryset = Transaction.objects.all()
 
 
+class ItemListAPIView(generics.ListAPIView):
+    serializer_class = ItemSerializer
+    queryset = Item.objects.all()
+
+
+class CategoryListAPIView(generics.ListAPIView):
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
+    
 class TransactionCreateAPIView(generics.CreateAPIView):
     serializer_class = TransactionSerializer
     queryset = Transaction.objects.all()

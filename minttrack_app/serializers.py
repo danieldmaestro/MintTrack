@@ -50,14 +50,14 @@ class ItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Item
-        fields = ['name', 'category']
+        fields = ['id', 'name', 'category']
 
 
 class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ['name', ]
+        fields = ['id', 'name', ]
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -68,7 +68,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Transaction
-        fields = ['item', 'amount', 'date', 'category_name', 'item_name', 'time']
+        fields = ['id', 'item', 'amount', 'date', 'category_name', 'item_name', 'time']
 
     def get_category_name(self, obj):
         return obj.item.category.name
@@ -93,7 +93,7 @@ class GoalSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Goal
-        fields = ['name', 'target_amount', 'target_savings', 'saved', 'progress', 'target_date']
+        fields = ['id', 'name', 'target_amount', 'target_savings', 'saved', 'progress', 'target_date']
 
     def get_progress(self, obj):
         return f"{obj.progress()}%"
@@ -109,7 +109,7 @@ class ItemBudgetSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Budget
-        fields = ['item', 'amount', 'month', 'spent', 'category_name', 'item_name']
+        fields = ['id', 'item', 'amount', 'month', 'spent', 'category_name', 'item_name']
 
     def get_spent(self, obj) -> int:
         spent_amount = Transaction.objects.filter(date__month=obj.month, item=obj.item).aggregate(total_amount=Sum('amount'))
